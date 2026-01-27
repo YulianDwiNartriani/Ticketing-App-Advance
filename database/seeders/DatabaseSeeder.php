@@ -19,10 +19,12 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([
+            TicketTypeSeeder::class,
             CategorySeeder::class,
             UserSeeder::class,
             EventSeeder::class,
-            TicketSeeder::class 
+            TicketSeeder::class,
+            PaymentTypeSeeder::class,
         ]);
     }
 }

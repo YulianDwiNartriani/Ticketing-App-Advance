@@ -35,11 +35,50 @@
 
           <div class="divider"></div>
 
-          <div class="flex justify-between items-center">
-            <span class="font-bold">Total</span>
-            <span class="font-bold text-lg">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
+        <div class="space-y-1 mt-2 text-sm">
+        <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
+        </div>
 
-          </div>
+        @if ($order->diskon_nominal > 0)
+            <div class="flex justify-between text-red-600">
+                <span>Diskon</span>
+                <span>- Rp {{ number_format($order->diskon_nominal, 0, ',', '.') }}</span>
+            </div>
+        @endif
+
+        <div class="flex justify-between font-bold text-lg">
+            <span>Total Bayar</span>
+            <span>Rp {{ number_format($order->total_bayar, 0, ',', '.') }}</span>
+        </div>
+    </div>
+
+
+           <!-- {{-- FORM UPDATE STATUS --}} -->
+            <form action="{{ route('admin.histories.update', $order) }}"
+                method="POST"
+                class="flex gap-3 items-center">
+              @csrf
+              @method('PUT')
+
+              <select name="status_pembayaran" class="select select-bordered">
+                  <option value="pending" {{ $order->status_pembayaran === 'pending' ? 'selected' : '' }}>
+                      Pending
+                  </option>
+                  <option value="paid" {{ $order->status_pembayaran === 'paid' ? 'selected' : '' }}>
+                      Paid
+                  </option>
+                  <option value="cancelled" {{ $order->status_pembayaran === 'cancelled' ? 'selected' : '' }}>
+                      Cancelled
+                  </option>
+              </select>
+
+              <button class="btn btn-primary btn-sm">
+                  Update
+              </button>
+          </form>
+          
           <div class="sm:ml-auto sm:mt-auto sm:mr-0 mx-auto mt-3 flex gap-2">
             <a href="{{ route('admin.histories.index') }}" class="btn btn-primary">Kembali ke Riwayat</a>
           </div>

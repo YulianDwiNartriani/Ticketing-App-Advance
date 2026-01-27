@@ -13,6 +13,9 @@ use App\Http\Controllers\Admin\TiketController;
 use App\Http\Controllers\Admin\HistoriesController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\Admin\PaymentTypeController;
+use App\Http\Controllers\Admin\TicketTypeController;
+use App\Http\Controllers\Admin\DiskonController;
 
 
 
@@ -35,13 +38,23 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         // Category Management
         Route::resource('categories', CategoryController::class);
+        //payment
+        Route::resource('payment-types', PaymentTypeController::class);
+        //ticket tipe
+        Route::resource('ticket-types', TicketTypeController::class);
         // Event Management
         Route::resource('events', EventController::class);
+        //manajemen diskon
+        Route::resource('diskons', DiskonController::class);
         // Tiket Management 
         Route::resource('tickets', TiketController::class);
          // Histories
-        Route::get('/histories', [HistoriesController::class, 'index'])->name('histories.index');
-        Route::get('/histories/{id}', [HistoriesController::class, 'show'])->name('histories.show');
+        // Route::get('/histories', [HistoriesController::class, 'index'])->name('histories.index');
+        // Route::get('/histories/{id}', [HistoriesController::class, 'show'])->name('histories.show');
+        // Histories (ADMIN)
+        Route::resource('histories', HistoriesController::class)
+            ->only(['index', 'show', 'update']);
+
     });
 });
 

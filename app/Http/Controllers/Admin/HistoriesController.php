@@ -19,6 +19,19 @@ class HistoriesController extends Controller
         $order = Order::findOrFail($history);
         return view('admin.history.show', compact('order'));
     }    
+    
+    public function update(Request $request, Order $history)
+    {
+        $request->validate([
+            'status_pembayaran' => 'required|in:pending,paid,cancelled',
+        ]);
+
+        $history->update([
+            'status_pembayaran' => $request->status_pembayaran,
+        ]);
+
+        return back()->with('success', 'Status pembayaran diperbarui');
+    }
 
 
 }

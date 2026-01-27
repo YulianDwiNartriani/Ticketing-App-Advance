@@ -12,6 +12,7 @@
                         <th>Event</th>
                         <th>Tanggal Pembelian</th>
                         <th>Total Harga</th>
+                        <th>Status Pembayaran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -22,7 +23,17 @@
                         <td>{{ $history->user->name }}</td>
                         <td>{{ $history->event?->judul ?? '-' }}</td>
                         <td>{{ $history->created_at->format('d M Y') }}</td>
-                        <td>{{ number_format($history->total_harga, 0, ',', '.') }}</td>
+                        <td>{{ number_format($history->total_bayar, 0, ',', '.') }}</td>
+                        <!-- STATUS -->
+                        <td>
+                            @if ($history->status_pembayaran === 'paid')
+                                <span class="badge badge-success">Paid</span>
+                            @elseif ($history->status_pembayaran === 'cancelled')
+                                <span class="badge badge-error">Cancelled</span>
+                            @else
+                                <span class="badge badge-warning">Pending</span>
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('admin.histories.show', $history->id) }}" class="btn btn-sm btn-info text-white">Detail</a>
                         </td>

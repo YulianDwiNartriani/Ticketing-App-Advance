@@ -19,11 +19,21 @@
               <div class="text-sm text-gray-500 mt-1">{{ $order->order_date->translatedFormat('d F Y, H:i') }}</div>
               <div class="text-sm mt-2">{{ $order->event?->judul ?? 'Event' }}</div>
             </div>
+            <div class="font-bold text-sm text-gray-600">
+              Metode: {{ $order->paymentType?->nama ?? '-' }}
+            </div>
 
             <div class="text-right">
-              <div class="font-bold text-lg">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</div>
+              <div class="font-bold text-lg">Rp {{ number_format($order->total_bayar, 0, ',', '.') }}</div>
               <a href="{{ route('orders.show', $order) }}" class="btn btn-primary mt-3 text-white">Lihat Detail</a>
             </div>
+            <!-- status pembayaran -->
+            <span class="badge
+              {{ $order->status_pembayaran === 'paid' ? 'badge-success' :
+                ($order->status_pembayaran === 'pending' ? 'badge-warning' : 'badge-error') }}">
+              {{ ucfirst($order->status_pembayaran) }}
+          </span>
+
           </div>
         </article>
       @empty

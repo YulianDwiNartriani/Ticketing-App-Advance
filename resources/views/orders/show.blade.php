@@ -35,11 +35,43 @@
 
           <div class="divider"></div>
 
-          <div class="flex justify-between items-center">
-            <span class="font-bold">Total</span>
-            <span class="font-bold text-lg">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
+          <div class="space-y-2 text-sm">
+
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
+            </div>
+
+            @if($order->diskon_nominal > 0)
+              <div class="flex justify-between text-red-600">
+                <span>Diskon</span>
+                <span>- Rp {{ number_format($order->diskon_nominal, 0, ',', '.') }}</span>
+              </div>
+            @endif
+
+            <div class="flex justify-between font-bold text-lg border-t pt-2">
+              <span>Total Bayar</span>
+              <span>Rp {{ number_format($order->total_bayar, 0, ',', '.') }}</span>
+            </div>
 
           </div>
+
+          <div class="flex justify-between items-center mt-4">
+            <span class="font-bold">Metode Pembayaran</span>
+            <span class="font-semibold text-gray-700">
+              {{ $order->paymentType?->nama ?? '-' }}
+            </span>
+          </div>
+          <!-- status pembayaran -->
+          <div class="mt-2">
+              <span class="font-semibold">Status Pembayaran:</span>
+              <span class="badge badge-outline">
+                  {{ ucfirst($order->status_pembayaran) }}
+              </span>
+          </div>
+
+
+          
         </div>
       </div>
     </div>

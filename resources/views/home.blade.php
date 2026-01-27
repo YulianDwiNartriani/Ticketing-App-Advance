@@ -33,8 +33,12 @@
                     :location="$event->lokasi"
                     :price="$event->tikets_min_harga" 
                     :image="$event->gambar" 
-                    :href="route('events.show', $event)" />
+                    :href="route('events.show', $event)"
+                    :diskon="$event->diskonAktif ?? null"
+                    :href="route('events.show', $event)"/>
             @endforeach
+
+            <!-- diskon global pakai=> :diskon="$diskonAktif"  -->
         </div>
     </section>
 </x-layouts.app>

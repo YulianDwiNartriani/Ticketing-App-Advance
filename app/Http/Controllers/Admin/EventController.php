@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;      
-use App\Models\Kategori;  
+use App\Models\Kategori;
+use App\Models\TicketType;
+use App\Models\PaymentType;
+
+
 
 class EventController extends Controller
 {
@@ -14,7 +18,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        // $events = Event::all();
+        $events = Event::with('diskons')->get();
         return view('admin.event.index', compact('events'));
     }
 
@@ -61,10 +66,12 @@ class EventController extends Controller
     public function show(string $id)
     {
         $event = Event::findOrFail($id);
+        $ticketTypes = TicketType::all(); 
         $categories = Kategori::all();
+        $paymentTypes = PaymentType::all();
         $tickets = $event->tikets;
 
-        return view('admin.event.show', compact('event', 'categories', 'tickets'));
+        return view('admin.event.show', compact('event', 'categories', 'tickets', 'ticketTypes', 'paymentTypes'));
     }
 
     /**

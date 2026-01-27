@@ -50,6 +50,49 @@
                     <span class="is-drawer-close:hidden">History Pembelian</span>
                 </a>
             </li>
+            <!-- Payment Types item -->
+            <li class="{{ request()->routeIs('admin.payment-types.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.payment-types.index') }}"
+                    class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Pembayaran">
+                    <!-- Payment/Money icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                        <circle cx="12" cy="15" r="2"></circle>
+                    </svg>
+                    <span class="is-drawer-close:hidden">Manajemen Tipe Pembayaran</span>
+                </a>
+            </li>
+             <li class="{{ request()->routeIs('admin.ticket-types.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.ticket-types.index') }}"
+                    class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
+                    <!-- tipe tiket icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                         <path d="M3 7a2 2 0 0 1 2-2h3.5a1.5 1.5 0 0 0 0 3H5v8h3.5a1.5 1.5 0 0 0 0 3H5a2 2 0 0 1-2-2z"/>
+                        <path d="M21 7a2 2 0 0 0-2-2h-3.5a1.5 1.5 0 0 1 0 3H19v8h-3.5a1.5 1.5 0 0 1 0 3H19a2 2 0 0 0 2-2z"/>
+                        <line x1="12" y1="6" x2="12" y2="18"/>
+                    </svg>
+                    <span class="is-drawer-close:hidden">Manajemen Tipe Tiket</span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('admin.diskons.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.diskons.index') }}"
+                    class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
+                    <!-- diskon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="5" x2="5" y2="19"/>
+                        <circle cx="6.5" cy="6.5" r="2.5"/>
+                        <circle cx="17.5" cy="17.5" r="2.5"/>
+                    </svg>
+                    <span class="is-drawer-close:hidden">Manajemen Diskon</span>
+                </a>
+            </li>
         </ul>
 
        <!-- logout -->

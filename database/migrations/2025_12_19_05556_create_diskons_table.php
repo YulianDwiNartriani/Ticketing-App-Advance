@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tikets', function (Blueprint $table) {
+        Schema::create('diskons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained()->onDelete('cascade');
-            $table->foreignId('ticket_type_id')-> constrained('ticket_types')->onDelete('cascade');
-            $table->decimal("harga", 10, 2);
-            $table->integer("stok");
+            $table->string('nama');
+            $table->unsignedTinyInteger('nilai'); // 0–100
+            $table->boolean('aktif')->default(false);
+            $table->timestamp('mulai_at')->nullable();
+            $table->timestamp('berakhir_at')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tikets');
+        Schema::dropIfExists('diskons');
     }
 };

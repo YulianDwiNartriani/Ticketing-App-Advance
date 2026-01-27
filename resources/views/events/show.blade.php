@@ -80,7 +80,15 @@
       </div>
 
       <!-- Right / Summary -->
+
       <aside class="lg:col-span-1">
+        <!-- DISKON UI -->
+      @if($diskonAktif)
+        <span class="badge badge-warning">
+          Promo {{ $diskonAktif->nilai }}%
+        </span>
+      @endif
+
         <div class="card sticky top-24 p-4 bg-base-100 shadow">
           <h4 class="font-bold text-lg">Ringkasan Pembelian</h4>
 
@@ -89,6 +97,11 @@
             </div>
             <div class="flex justify-between text-xl font-bold mt-1"><span>Total</span><span id="summaryTotal">Rp
                 0</span></div>
+            @if($diskonAktif)
+              <p class="mt-2 text-xs text-gray-500 italic">
+                * Promo {{ $diskonAktif->nilai }}% akan diterapkan saat checkout
+              </p>
+            @endif
           </div>
 
           <div class="divider"></div>
@@ -96,6 +109,22 @@
           <div id="selectedList" class="space-y-2 text-sm text-gray-700">
             <p class="text-gray-500">Belum ada tiket dipilih</p>
           </div>
+
+          <div class="form-control mt-4">
+                <label class="label">
+                  <span class="label-text font-semibold">Metode Pembayaran</span>
+                </label>
+
+                <select id="payment_type_id" class="select select-bordered w-full">
+                  <option value="" disabled selected>Pilih metode pembayaran</option>
+
+                  @foreach ($paymentTypes as $paymentType)
+                    <option value="{{ $paymentType->id }}">
+                      {{ $paymentType->nama }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
 
           @auth
             <button id="checkoutButton" class="btn btn-primary !bg-blue-900 text-white btn-block mt-6" onclick="openCheckout()" disabled>Checkout</button>
@@ -120,6 +149,10 @@
           <div class="flex justify-between items-center">
             <span class="font-bold">Total</span>
             <span class="font-bold text-lg" id="modalTotal">Rp 0</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="font-bold">Metode Pembayaran</span>
+            <span class="font-bold text-lg" id="modalPaymentType">-</span>
           </div>
         </div>
 
@@ -154,6 +187,8 @@
     const summaryTotalEl = document.getElementById('summaryTotal');
     const selectedListEl = document.getElementById('selectedList');
     const checkoutButton = document.getElementById('checkoutButton');
+    const paymentSelect = document.getElementById('payment_type_id');
+    const modalPaymentType = document.getElementById('modalPaymentType');
 
     function updateSummary() {
       let totalQty = 0;
@@ -170,11 +205,33 @@
           selectedHtml += `<div class="flex justify-between"><span>${t.tipe} x ${qty}</span><span>${formatRupiah(qty * t.price)}</span></div>`;
         }
       });
+      function updateCheckoutState() {
+      const totalQty = Number(summaryItemsEl.textContent || 0);
+      const hasPayment = !!paymentSelect.value;
+
+      if (totalQty > 0 && hasPayment) {
+        checkoutButton.disabled = false;
+        checkoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
+      } else {
+        checkoutButton.disabled = true;
+        checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    // default: disabled + abu-abu
+    checkoutButton.disabled = true;
+    checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+    paymentSelect.addEventListener('change', () => {
+      updateCheckoutState();
+    });
 
       summaryItemsEl.textContent = totalQty;
       summaryTotalEl.textContent = formatRupiah(totalPrice);
       selectedListEl.innerHTML = selectedHtml || '<p class="text-gray-500">Belum ada tiket dipilih</p>';
-      checkoutButton.disabled = totalQty === 0;
+      //checkoutButton.disabled = totalQty === 0;
+      updateCheckoutState();
+
     }
 
     // Wire up plus/minus buttons and manual input
@@ -246,6 +303,12 @@
       modalItems.innerHTML = itemsHtml || '<p class="text-gray-500">Belum ada item.</p>';
       modalTotal.textContent = formatRupiah(total);
 
+      const selectedPaymentText =
+        paymentSelect.options[paymentSelect.selectedIndex]?.text || '-';
+      modalPaymentType.textContent = selectedPaymentText;
+
+      modal.showModal();
+
       if (typeof modal.showModal === 'function') {
         modal.showModal();
       } else {
@@ -272,7 +335,7 @@
       if (items.length === 0) {
         alert('Tidak ada tiket dipilih');
         btn.removeAttribute('disabled');
-        btn.textContent = 'Konfirmasi (placeholder)';
+        btn.textContent = 'Konfirmasi';
         return;
       }
 
@@ -284,7 +347,7 @@
             'Accept': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
           },
-          body: JSON.stringify({ event_id: {{ $event->id }}, items })
+          body: JSON.stringify({ event_id: {{ $event->id }}, payment_type_id: paymentSelect.value, items })
         });
 
         if (!res.ok) {
@@ -299,9 +362,11 @@
         console.log(err);
         alert('Terjadi kesalahan saat memproses pesanan: ' + err.message);
         btn.removeAttribute('disabled');
-        btn.textContent = 'Konfirmasi (placeholder)';
+        btn.textContent = 'Konfirmasi';
       }
     });
+
+
     }) (); 
   </script>
 </x-layouts.app>

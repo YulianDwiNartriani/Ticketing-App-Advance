@@ -41,5 +41,19 @@ class Event extends Model
     {
         return $this->hasMany(Order::class);
     }
+    // untuk diskon per event
+    public function diskons()
+    {
+        return $this->hasMany(Diskon::class);
+    }
+    public function getDiskonAktifAttribute()
+    {
+        return $this->diskons()
+            ->where('aktif', true)
+            ->where('mulai_at', '<=', now())
+            ->where('berakhir_at', '>=', now())
+            ->first();
+    }
+
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailOrder;
 use App\Models\Order;
 use App\Models\Tiket;
+use App\Models\Diskon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,8 @@ class OrderController extends Controller
       'items' => 'required|array|min:1',
       'items.*.tiket_id' => 'required|integer|exists:tikets,id',
       'items.*.jumlah' => 'required|integer|min:1',
+      'payment_type_id' => 'required|exists:payment_types,id',
+
     ]);
 
     $user = Auth::user();
@@ -54,11 +57,41 @@ class OrderController extends Controller
           $total += ($t->harga ?? 0) * $it['jumlah'];
         }
 
+        // DISKON GLOBAL
+        // $diskon = Diskon::where('aktif', true)
+        //     ->where('mulai_at', '<=', now())
+        //     ->where('berakhir_at', '>=', now())
+        //     ->first();
+
+        // DISKON PER EVENT
+        $diskon = Diskon::where('aktif', true)
+        ->where('mulai_at', '<=', now())
+        ->where('berakhir_at', '>=', now())
+        ->where(function ($q) use ($data) {
+            $q->whereNull('event_id')
+              ->orWhere('event_id', $data['event_id']);
+        })
+        ->first();
+
+
+        $nilaiDiskon = 0;
+        $diskonId = null;
+
+        if ($diskon) {
+            $nilaiDiskon = ($diskon->nilai / 100) * $total;
+            $diskonId = $diskon->id;
+        }
+
         $order = Order::create([
           'user_id' => $user->id,
           'event_id' => $data['event_id'],
+          'payment_type_id' => $data['payment_type_id'],
           'order_date' => Carbon::now(),
           'total_harga' => $total,
+          'diskon_id' => $diskonId,
+          'diskon_nominal' => $nilaiDiskon,
+          'total_bayar' => $total - $nilaiDiskon,
+          'status_pembayaran' => 'pending', 
         ]);
 
         foreach ($data['items'] as $it) {
