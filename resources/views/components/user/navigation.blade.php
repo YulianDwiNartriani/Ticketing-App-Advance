@@ -1,5 +1,5 @@
 <div class="navbar bg-base-100 shadow-sm">
-    <div class="navbar-start">
+    <div class="navbar-start pl-4">
         <div class="dropdown">
             <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -9,7 +9,7 @@
             </div>
         </div>
         <a href="{{ route('home') }}">
-            <img src={{ asset('assets/images/logo_bengkod.svg') }} />
+            <img src="{{ asset('assets/images/lokatix.png') }}" alt="Logo LokaTix" class="h-10" />
         </a>
     </div>
     <div class="navbar-center hidden lg:flex">

@@ -1,12 +1,44 @@
 <x-layouts.app>
-    <div class="hero bg-blue-900 min-h-screen">
-        <div class="hero-content text-center text-white">
-            <div class="max-w-4xl">
-                <h1 class="text-5xl font-bold">Hi, Amankan Tiketmu yuk.</h1>
-                <p class="py-6">
-                    BengTix: Beli tiket, auto asik.
-                </p>
-            </div>
+    <!-- Hero Section dengan Alpine.js Slider & Dark Overlay -->
+<div 
+    x-data="{ 
+        images: [
+            '{{ asset('assets/images/hero-1.jpg') }}',
+            '{{ asset('assets/images/hero-2.jpg') }}',
+            '{{ asset('assets/images/hero-3.jpg') }}'
+        ],
+        activeSlide: 0,
+        init() {
+            setInterval(() => {
+                this.activeSlide = (this.activeSlide + 1) % this.images.length;
+            }, 4000); // Ganti gambar setiap 4 detik (4000ms)
+        }
+    }" 
+    class="relative h-[80vh] w-full overflow-hidden flex items-center justify-center text-center"
+>
+    <!-- Loop untuk Background Gambar yang Berganti -->
+    <template x-for="(img, index) in images" :key="index">
+        <div 
+                x-show="activeSlide === index"
+                x-transition:enter="transition opacity-100 duration-1000"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition opacity-0 duration-1000"
+                class="absolute inset-0 bg-cover bg-center"
+                :style="`background-image: url('${img}')`"
+            ></div>
+        </template>
+
+        <!-- Layer Hitam Transparan (Overlay) agar Tulisan Terbaca -->
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <!-- Konten / Teks di atas Background -->
+        <div class="relative z-10 px-4 text-white">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Hi, Amankan Tiketmu yuk.</h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-6">LokaTix: Temukan event konser, pameran, dan orkestra terbaik di Semarang.</p>
+            <a href="#events" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition">
+                Jelajahi Event
+            </a>
         </div>
     </div>
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->string('no_hp')->nullable();
-            $table->string('role');
+            $table->string('role')->default('user');
 
         });
 
