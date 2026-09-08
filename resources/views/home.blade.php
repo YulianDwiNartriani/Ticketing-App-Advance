@@ -72,5 +72,8 @@
                     :href="route('events.show', $event)"/>
             @endforeach
         </div>
+        <div class="mt-8">
+            {{ $events->links() }}
+        </div>
     </section>
 </x-layouts.app>
