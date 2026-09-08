@@ -1,4 +1,4 @@
-<div class="drawer-side is-drawer-close:overflow-visible ">
+<div class="drawer-side is-drawer-close:overflow-visible shadow-[3px_0_8px_rgba(0,0,0,0.10)] z-20">
     <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
     <div class="flex min-h-full flex-col items-start bg-base-200 w-64 is-drawer-close:w-14 is-drawer-open:w-80">
         <div class="w-full flex items-center justify-center p-4">
@@ -50,13 +50,12 @@
                     <span class="is-drawer-close:hidden">History Pembelian</span>
                 </a>
             </li>
+
             <!-- Payment Types item -->
             <li class="{{ request()->routeIs('admin.payment-types.*') ? 'bg-gray-200 rounded-lg' : '' }}">
-                <a href="{{ route('admin.payment-types.index') }}"
-                    class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Pembayaran">
+                <a href="{{ route('admin.payment-types.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Pembayaran">
                     <!-- Payment/Money icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                         <line x1="1" y1="10" x2="23" y2="10"></line>
                         <circle cx="12" cy="15" r="2"></circle>
@@ -64,28 +63,27 @@
                     <span class="is-drawer-close:hidden">Manajemen Tipe Pembayaran</span>
                 </a>
             </li>
-             <li class="{{ request()->routeIs('admin.ticket-types.*') ? 'bg-gray-200 rounded-lg' : '' }}">
-                <a href="{{ route('admin.ticket-types.index') }}"
-                    class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
+
+            <!-- Ticket Types item -->
+            <li class="{{ request()->routeIs('admin.ticket-types.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.ticket-types.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
                     <!-- tipe tiket icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                         <line x1="1" y1="10" x2="23" y2="10"></line>
-                         <path d="M3 7a2 2 0 0 1 2-2h3.5a1.5 1.5 0 0 0 0 3H5v8h3.5a1.5 1.5 0 0 0 0 3H5a2 2 0 0 1-2-2z"/>
+                        <path d="M3 7a2 2 0 0 1 2-2h3.5a1.5 1.5 0 0 0 0 3H5v8h3.5a1.5 1.5 0 0 0 0 3H5a2 2 0 0 1-2-2z"/>
                         <path d="M21 7a2 2 0 0 0-2-2h-3.5a1.5 1.5 0 0 1 0 3H19v8h-3.5a1.5 1.5 0 0 1 0 3H19a2 2 0 0 0 2-2z"/>
                         <line x1="12" y1="6" x2="12" y2="18"/>
                     </svg>
                     <span class="is-drawer-close:hidden">Manajemen Tipe Tiket</span>
                 </a>
             </li>
+
+            <!-- Diskon item -->
             <li class="{{ request()->routeIs('admin.diskons.*') ? 'bg-gray-200 rounded-lg' : '' }}">
-                <a href="{{ route('admin.diskons.index') }}"
-                    class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
+                <a href="{{ route('admin.diskons.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Diskon">
                     <!-- diskon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="5" x2="5" y2="19"/>
                         <circle cx="6.5" cy="6.5" r="2.5"/>
                         <circle cx="17.5" cy="17.5" r="2.5"/>
@@ -95,14 +93,15 @@
             </li>
         </ul>
 
-       <!-- logout -->
-        <div class="w-full p-4">
-            <form action="{{ route('logout') }}" method="POST">
+        <!-- Bagian Bawah Sidebar (Profil & Logout Menyatu Rapi) -->
+        <div class="w-full mt-auto p-3 border-t border-gray-200">
+
+            <!-- Tombol Logout -->
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-outline btn-error w-full is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Logout">
-                    <!-- Logout icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M10 17v-2h4v-2h-4v-2l-5 3l5 3m9-12H5q-.825 0-1.413.588T3 7v10q0 .825.587 1.413T5 19h14q.825 0 1.413-.587T21 17v-3h-2v3H5V7h14v3h2V7q0-.825-.587-1.413T19 5z" />
+                <button type="submit" class="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                     </svg>
                     <span class="is-drawer-close:hidden">Logout</span>
                 </button>

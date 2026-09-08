@@ -25,6 +25,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Events
 Route::get('/events/{event}', [UserEventController::class, 'show'])->name('events.show');
 
+Route::get('/api/search-events', [HomeController::class, 'search'])->name('api.search');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

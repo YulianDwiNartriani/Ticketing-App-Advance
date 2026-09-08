@@ -1,7 +1,7 @@
 <x-layouts.admin title="Manajemen Tipe Tiket">
     @if (session('success'))
-        <div class="toast toast-bottom toast-center">
-            <div class="alert alert-success">
+        <div class="toast toast-bottom toast-center z-50">
+            <div class="alert alert-success text-white">
                 <span>{{ session('success') }}</span>
             </div>
         </div>
@@ -13,53 +13,52 @@
         </script>
     @endif
 
-    <div class="container mx-auto p-10">
-        <div class="flex items-center mb-4">
-            <h1 class="text-3xl font-semibold">Manajemen Tipe Tiket</h1>
-            <a href="{{ route('admin.ticket-types.create') }}" class="btn btn-primary ml-auto">
+    <div class="container mx-auto p-6 lg:p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl lg:text-3xl font-black text-gray-900 tracking-tight">Manajemen Tipe Tiket</h1>
+            <a href="{{ route('admin.ticket-types.create') }}" class="btn btn-primary btn-sm lg:btn-md">
                 Tambah Tipe Tiket
             </a>
         </div>
 
-        <div class="overflow-x-auto rounded-box bg-white p-5 shadow-xs">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Tipe Tiket</th>
-                        <th>Dibuat Pada</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($ticketTypes as $index => $ticketType)
-                        <tr>
-                            <th>{{ $index + 1 }}</th>
-                            <td>{{ $ticketType->nama }}</td>
-                            <td>{{ $ticketType->created_at->format('d M Y H:i') }}</td>
-                            <td>
-                                <a href="{{ route('admin.ticket-types.edit', $ticketType->id) }}"
-                                   class="btn btn-sm btn-primary mr-2">
-                                    Edit
-                                </a>
-                                <button
-                                    class="btn btn-sm bg-red-500 text-white"
-                                    onclick="openDeleteModal(this)"
-                                    data-id="{{ $ticketType->id }}"
-                                >
-                                    Hapus
-                                </button>
-                            </td>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-100 text-[11px] font-semibold text-gray-400 uppercase tracking-wider bg-gray-50/50">
+                            <th class="py-3 px-4 w-12">No</th>
+                            <th class="py-3 px-4">Nama Tipe Tiket</th>
+                            <th class="py-3 px-4">Dibuat Pada</th>
+                            <th class="py-3 px-4 text-center">Aksi</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center">
-                                Belum ada tipe tiket tersedia.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50 text-xs">
+                        @forelse ($ticketTypes as $index => $ticketType)
+                            <tr class="hover:bg-gray-50/50 transition">
+                                <td class="py-3 px-4 font-bold text-gray-700">{{ $index + 1 }}</td>
+                                <td class="py-3 px-4 font-semibold text-gray-900">{{ $ticketType->nama }}</td>
+                                <td class="py-3 px-4 text-gray-600 whitespace-nowrap">{{ $ticketType->created_at->format('d M Y H:i') }}</td>
+                                <td class="py-3 px-4 text-center whitespace-nowrap">
+                                    <div class="inline-flex items-center gap-1.5">
+                                        <a href="{{ route('admin.ticket-types.edit', $ticketType->id) }}" class="px-2.5 py-1 text-[11px] font-medium bg-amber-500 text-white rounded hover:bg-amber-600 transition">
+                                            Edit
+                                        </a>
+                                        <button type="button" class="px-2.5 py-1 text-[11px] font-medium bg-red-500 text-white rounded hover:bg-red-600 transition" onclick="openDeleteModal(this)" data-id="{{ $ticketType->id }}">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="py-8 text-center text-gray-400 text-xs">
+                                    Belum ada tipe tiket tersedia.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -69,12 +68,12 @@
             @csrf
             @method('DELETE')
 
-            <h3 class="text-lg font-bold mb-4">Hapus Tipe Tiket</h3>
-            <p>Apakah Anda yakin ingin menghapus tipe tiket ini?</p>
+            <h3 class="text-lg font-bold mb-2">Hapus Tipe Tiket</h3>
+            <p class="text-sm text-gray-600">Apakah Anda yakin ingin menghapus tipe tiket ini?</p>
 
-            <div class="modal-action">
-                <button class="btn btn-primary" type="submit">Hapus</button>
-                <button class="btn" type="reset" onclick="delete_modal.close()">Batal</button>
+            <div class="modal-action mt-4">
+                <button class="btn btn-error btn-sm text-white" type="submit">Hapus</button>
+                <button class="btn btn-sm" type="reset" onclick="delete_modal.close(); return false;">Batal</button>
             </div>
         </form>
     </dialog>
