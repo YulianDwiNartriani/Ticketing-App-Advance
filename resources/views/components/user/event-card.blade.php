@@ -28,9 +28,8 @@ $imageUrl = $image
 
 <a href="{{ $href ?? '#' }}" class="block">
     <div class="card bg-base-100 h-96 shadow-sm hover:shadow-md transition-shadow duration-300 relative">
-        <div class="h-48 overflow-hidden bg-gray-100 rounded-t-lg flex items-center justify-center">
-            <img src="{{ $imageUrl }}" alt="{{ $title }}" class="object-contain">
-
+       <div class="w-full aspect-[16/9] overflow-hidden rounded-t-lg bg-gray-100">
+            <img src="{{ $imageUrl }}" alt="{{ $title }}" class="w-full h-full object-cover">
         </div>
 
         <div class="card-body">
