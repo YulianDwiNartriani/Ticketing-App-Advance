@@ -14,13 +14,14 @@
     <div class="drawer lg:drawer-open flex-1 h-full overflow-hidden">
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
         
-        <!-- Area Konten Utama & Footer di dalam Drawer Content -->
+        <!-- Area Konten Utama & Footer -->
         <div class="drawer-content flex flex-col h-full overflow-hidden">
-            <div class="flex-1 overflow-hidden">
+            <!-- Tambahkan @stack('content-class') agar bisa diatur per halaman -->
+            <div class="flex-1 @stack('content-class', 'overflow-y-auto')">
                 {{ $slot }}
             </div>
 
-            <footer class="shrink-0 text-center py-2 text-xs text-gray-500">
+            <footer class="shrink-0 text-center py-2 text-xs text-gray-500 bg-white border-t border-gray-100">
                 <div class="container mx-auto">
                     <p>© {{ date('Y') }} MyLaravelApp. All rights reserved.</p>
                 </div>

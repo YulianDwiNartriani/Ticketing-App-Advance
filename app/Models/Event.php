@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\DetailOrder;
+use App\Models\Tiket;
+
 class Event extends Model
 {
     use HasFactory;
@@ -53,6 +56,12 @@ class Event extends Model
             ->where('mulai_at', '<=', now())
             ->where('berakhir_at', '>=', now())
             ->first();
+    }
+
+   public function detailOrders()
+    {
+        // Parameter: (TargetModel, IntermediateModel, foreignKeyOnIntermediate, foreignKeyOnTarget)
+        return $this->hasManyThrough(DetailOrder::class, Tiket::class, 'event_id', 'tiket_id');
     }
 
 

@@ -34,12 +34,11 @@ class DashboardController extends Controller
                          ->take(5)
                          ->get();
 
-        // Cari event terlaris berdasarkan jumlah order
-        $eventTerlaris = Order::select('event_id', \DB::raw('count(*) as total_transaksi'))
-            ->groupBy('event_id')
-            ->orderByDesc('total_transaksi')
-            ->with('event')
+        $eventTerlaris= Event::withSum('detailOrders as total_tiket_terjual', 'jumlah')
+            ->orderByDesc('total_tiket_terjual')
             ->first();
+            
+        $totalTerjual = $eventTerlaris->total_tiket_terjual ?? 0;
 
         return view('admin.dashboard', compact(
             'totalEvents', 
@@ -48,7 +47,8 @@ class DashboardController extends Controller
             'pendapatan', 
             'transaksiTerbaru', 
             'eventMendatang',
-            'eventTerlaris'
+            'eventTerlaris',
+            'totalTerjual'
         ));
     }
 }
